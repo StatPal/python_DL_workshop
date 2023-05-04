@@ -4,18 +4,21 @@
 
 Today, we will work in our machines, **not in the google colab or kaggle** and see how to do that. 
 
-To install libraries, we will use `Pip`. Other ways of doing that will be using `conda` (personally I use this method much more than `pip`).
+Now, we will create a `virtual environment`. A virtual enviro­nment is a Python tool for `dependency management` and `project isolation`. They allow Python third party libraries to be installed locally in an isolated directory for a particular project. *So it works like an isolated box insode your machine for python.*
+
+<!-- We will create **virtual environments** inside our machine so that different projects and versions of the packages do not get mmixed up. Virtual environments are like separate boxes inside your machine which do not intearct between each other.  -->
+
+To install libraries, we will use `conda`, which will also be used to create virtual environments. Other ways of doing that will be using `Pip` to install packages and `venv` or some other method to create virtual environment,
+
+After that, we will try to run n example repository from github (about nanoGPT). 
+
+# Conda
+
+`conda cheatsheet`: https://docs.conda.io/projects/conda/en/latest/_downloads/843d9e0198f2a193a3484886fa28163c/conda-cheatsheet.pdf
 
 
-## Conda
-========
-
-Search `conda cheatsheet` and something like this will follow: https://docs.conda.io/projects/conda/en/latest/_downloads/843d9e0198f2a193a3484886fa28163c/conda-cheatsheet.pdf
-
-
-For windows user, go there https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html#regular-installation and install conda (miniconda for smaller size)
-
-
+## Install conda
+Goto https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html#regular-installation and install conda (miniconda for smaller size)
 
 Install Anaconda or Miniconda normally, and let the installer add the conda installation of Python to your PATH environment variable. There is no need to set the PYTHONPATH environment variable.
 
@@ -25,51 +28,50 @@ To see if the conda installation of Python is in your PATH variable:
 
 
 
-### After Installation
-We will try `nanoGPT` (https://github.com/karpathy/nanoGPT) - not create code but use another person's code. 
+## After Installation, create virtual environement
+We will try `nanoGPT` (https://github.com/karpathy/nanoGPT) and run somse of the examples - we will not create new code but use another person's code. 
 
-
+To do that, we will create a new virtual environment:
+* Create environment
 ```bash
-## Create environment
 conda create --name ENVNAME
-
-## Activate that environment
+```
+* Activate that environment
+```bash
 conda activate ENVNAME
 ```
 
-### Install packages: 
+## Install packages: 
 
-* First, pytorch
+* First, install pytorch according to this website: https://pytorch.org/get-started/locally/
 ```bash
 conda install pytorch torchvision torchaudio cpuonly -c pytorch
 ```
-* Then other packages according to the readme file
+* Then other packages according to the readme file of the `nanoGPT`:
 ```bash
 conda install transformers datasets tiktoken wandb tqdm -c conda-forge
 ```
+(Some of the package need the extra channel `conda-forge`)
 
 
 
-## Now go to NanoGPT page and download the package
-
-
-We will not train the whole model as it would take time. We would `fine-tune` the model, already script is ready. 
-
-Download or clone:
+## Go to nanoGPT page and download the package
+* Download or clone:
 ```bash
-git clone git@github.com:karpathy/nanoGPT.git --depth 1
+git clone https://github.com/karpathy/nanoGPT.git --depth 1
 ```
-
-Go inside the folder
+* Go inside the folder
 ```bash
 cd nanoGPT
 ```
 
-Configure:
+We will not train the whole model as it would take time. We would `fine-tune` the model, already script is ready. 
+
+Configure to prepare the models:
 ```bash
 python data/shakespeare/prepare.py --device=cpu
 ```
-Fine tune:
+Fine tune (skip it for now, you can fine tune more, see the readme of the `nanoGPT` github repo):
 ```bash
 python train.py config/finetune_shakespeare.py --device=cpu --init_from=gpt2 --eval_iters=10
 ```
@@ -84,10 +86,16 @@ python sample.py --device=cpu\
 ```
 
 
+Deactivate the environment
+```bash
+conda deactivate
+```
 
-<!-- 
-## PIP
 
+
+
+# PIP
+The other common way to use the virtual environment is via `venv` and `Pip`. First, we have to install `pip`.
 "Pip is a thing that installs packages, pip itself is a package that someone might want to install..." 
 ```sh
 # Download PIP globally
@@ -115,10 +123,10 @@ If you’d rather run pip (or other tools) from any location, you’ll need to a
 * Click New, and add the directory where pip is installed, e.g. C:Python33Scripts, and select OK.
 
 
+----------------------------------------------------
+## Virtual environments
 
-Now, we will create a `virtual environment`. A virtual enviro­nment is a Python tool for `dependency management` and `project isolation`. They allow Python third party libraries to be installed locally in an isolated directory for a particular project. *So it works like an isolated box insode your machine for python.*
-
-
+We will create **virtual environments** inside our machine so that different projects and versions of the packages do not get mmixed up. 
 Cheatsheet: https://gist.github.com/ryanbehdad/858b47b54be441a684efb7ae6ca98a75
 
 
@@ -137,19 +145,15 @@ source venv1/bin/activate
 
 ### Install packages
 ```bash
-pip install jupyter matplotlib numpy pandas scipy scikit-learn
+pip install transformers datasets tiktoken wandb tqdm
 #or 
-python -m pip install -U jupyter matplotlib numpy pandas scipy scikit-learn
+python -m pip install -U transformers datasets tiktoken wandb tqdm
 ```
 
 
 
-## Other ways: using conda
 
-
-
-
-## Other ways: using virtualenv
+## Other ways for virtual environment using `virtualenv`
 
 Cheatsheet: https://cheatography.com/ilyes64/cheat-sheets/python-virtual-environments/
 
@@ -193,5 +197,5 @@ deactivate
 
 ### Installing packages
 ```bash
-pip install requests
-``` -->
+pip install transformers
+```
